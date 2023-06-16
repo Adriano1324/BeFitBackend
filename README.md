@@ -1,6 +1,7 @@
 # BeFitBackend
 
 ## Running app locally
+Copy .env.template to .env
 
 Starting containers
 ```shell
