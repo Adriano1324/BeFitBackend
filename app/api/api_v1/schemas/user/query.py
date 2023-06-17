@@ -1,11 +1,17 @@
 """
-This module contains queties for user
+This module contains queries for user
 """
 import strawberry
+
+from app.fragments import MeResponse
+from app.security import Info
 
 
 @strawberry.type
 class Query:
     @strawberry.field
-    def hello(self) -> str:
-        return "Hello World"
+    async def me(self, info: Info) -> MeResponse:
+        """
+        This method returns actual user from context
+        """
+        return info.context.user
