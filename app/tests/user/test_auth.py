@@ -21,7 +21,7 @@ async def test_login_user() -> None:
             "username": username,
         },
     )
-    assert result.data.get("createUser", {}).get("username") == username  # type: ignore
+    assert result.data.get("createUser", {}).get("username") == username
     login_result = await schema.execute(
         LOGIN,
         variable_values={
@@ -29,10 +29,10 @@ async def test_login_user() -> None:
             "password": "Password",
         },
     )
-    assert (
-        login_result.data.get("login", {}).get("__typename") == "LoginSuccess"  # type: ignore
+    assert login_result.data.get("login", {}).get("__typename") == "LoginSuccess"
+    assert isinstance(
+        login_result.data.get("login", {}).get("user").get("username", None), str
     )
-    assert isinstance(login_result.data.get("login", {}).get("user").get("username", None), str)  # type: ignore
 
 
 @pytest.mark.asyncio
@@ -48,7 +48,7 @@ async def test_login_user_bad_username() -> None:
             "username": username,
         },
     )
-    assert result.data.get("createUser", {}).get("username") == username  # type: ignore
+    assert result.data.get("createUser", {}).get("username") == username
     login_result = await schema.execute(
         LOGIN,
         variable_values={
@@ -56,10 +56,11 @@ async def test_login_user_bad_username() -> None:
             "password": "Password",
         },
     )
+    assert login_result.data.get("login", {}).get("__typename") == "UserNotFound"
     assert (
-        login_result.data.get("login", {}).get("__typename") == "UserNotFound"  # type: ignore
+        login_result.data.get("login", {}).get("msg")
+        == "User with this name didn't exist"
     )
-    assert login_result.data.get("login", {}).get("msg") == "User with this name didn't exist"  # type: ignore
 
 
 @pytest.mark.asyncio
@@ -75,7 +76,7 @@ async def test_login_user_bad_password() -> None:
             "username": username,
         },
     )
-    assert result.data.get("createUser", {}).get("username") == username  # type: ignore
+    assert result.data.get("createUser", {}).get("username") == username
     login_result = await schema.execute(
         LOGIN,
         variable_values={
@@ -84,7 +85,5 @@ async def test_login_user_bad_password() -> None:
         },
     )
     print(login_result)
-    assert (
-        login_result.data.get("login", {}).get("__typename") == "LoginError"  # type: ignore
-    )
-    assert login_result.data.get("login", {}).get("msg") == "Wrong password"  # type: ignore
+    assert login_result.data.get("login", {}).get("__typename") == "LoginError"
+    assert login_result.data.get("login", {}).get("msg") == "Wrong password"

@@ -20,7 +20,7 @@ async def test_create_user() -> None:
             "username": username,
         },
     )
-    assert result.data.get("createUser", {}).get("username") == username  # type: ignore
+    assert result.data.get("createUser", {}).get("username") == username
 
 
 @pytest.mark.asyncio
@@ -36,7 +36,7 @@ async def test_create_user_with_existing_username() -> None:
             "username": username,
         },
     )
-    assert result.data.get("createUser", {}).get("username") == username  # type: ignore
+    assert result.data.get("createUser", {}).get("username") == username
     result_2 = await schema.execute(
         CREATE_USER_MUTATION,
         variable_values={
@@ -47,10 +47,8 @@ async def test_create_user_with_existing_username() -> None:
             "username": username,
         },
     )
+    assert result_2.data.get("createUser", {}).get("__typename") == "UserExists"
     assert (
-        result_2.data.get("createUser", {}).get("__typename") == "UserExists"  # type: ignore
-    )
-    assert (
-        result_2.data.get("createUser", {}).get("msg")  # type: ignore
+        result_2.data.get("createUser", {}).get("msg")
         == "User with this name already exists"
     )

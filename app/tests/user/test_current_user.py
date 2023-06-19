@@ -23,7 +23,7 @@ async def test_current_user() -> None:
             "username": username,
         },
     )
-    assert result.data.get("createUser", {}).get("username") == username  # type: ignore
+    assert result.data.get("createUser", {}).get("username") == username
     login_result = await schema.execute(
         LOGIN,
         variable_values={
@@ -31,13 +31,11 @@ async def test_current_user() -> None:
             "password": "Password",
         },
     )
-    assert (
-        login_result.data.get("login", {}).get("__typename") == "LoginSuccess"  # type: ignore
-    )
-    token = login_result.data.get("login", {}).get("token", {}).get("accessToken", None)  # type: ignore
+    assert login_result.data.get("login", {}).get("__typename") == "LoginSuccess"
+    token = login_result.data.get("login", {}).get("token", {}).get("accessToken", None)
     current_user_result = await schema.execute(
         CURRENT_USER_QUERY, context_value=Context(token=f"Bearer {token}")
     )
     assert (
-        current_user_result.data.get("currentUser", {}).get("username", "") == username  # type: ignore
+        current_user_result.data.get("currentUser", {}).get("username", "") == username
     )
