@@ -5,7 +5,7 @@ Copy .env.template to .env
 
 Starting containers
 ```shell
-docker compose up  # Runs db and backend container
+docker compose up backend # Runs db and backend container
 ```
 
 Migrating database
@@ -20,6 +20,16 @@ docker compose run backend alembic upgrade head  # Applies new migration to data
 ```
 
 After running backend and migrations on address `http://127.0.0.1:8000/graphql` is playground for GraphQl
+
+## Running linters
+```shell
+docker compose run --rm lint
+```
+
+## Running tests
+```shell
+docker compose run --rm test
+```
 
 ## Authentication
 For authentication we are using JWT

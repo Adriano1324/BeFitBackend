@@ -29,7 +29,6 @@ async def test_login_user() -> None:
             "password": "Password",
         },
     )
-    print(login_result)
     assert (
         login_result.data.get("login", {}).get("__typename") == "LoginSuccess"  # type: ignore
     )
