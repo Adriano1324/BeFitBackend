@@ -1,3 +1,6 @@
+"""
+This module contains resolver for creating user
+"""
 from sqlalchemy import insert, select
 
 from app.db.async_session import get_session
@@ -5,14 +8,18 @@ from app.inputs import UserCreate as UserCreateInput
 from app.models import User as UserModel
 from app.scalars import User as UserScalar
 from app.scalars import UserExists as UserExistsScalar
-from app.security import Info, get_password_hash
+from app.security import get_password_hash
 from app.utils.resolvers import get_valid_data
 
 
-async def add_user(
-    info: Info, user_in: UserCreateInput
-) -> UserScalar | UserExistsScalar:
-    """Add user resolver"""
+async def add_user(user_in: UserCreateInput) -> UserScalar | UserExistsScalar:
+    """
+    This function is to create user in db
+    :param user_in: UserInput
+    :return: one of UserScalar | UserExistsScalar
+        If UserScalar means that user was correctly created
+        If UserExistsScalar User with this username already exists
+    """
     async with get_session() as s:
         select_existing_user_sql = select(UserModel.username).filter(
             UserModel.username == user_in.username

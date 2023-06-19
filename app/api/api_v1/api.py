@@ -5,7 +5,7 @@ import strawberry
 from strawberry.fastapi import GraphQLRouter
 from strawberry.schema.config import StrawberryConfig
 
-from app.security.context import Context
+from app.security import Context
 
 from .schemas.auth.mutation import Mutation as AuthMutation
 from .schemas.user.mutation import Mutation as UserMutation
@@ -13,7 +13,7 @@ from .schemas.user.query import Query as UserQuery
 
 
 @strawberry.type
-class Query(UserQuery):
+class Query(UserQuery):  # pylint: disable=too-few-public-methods
     """
     This is base query class which inherits from all modules
     """

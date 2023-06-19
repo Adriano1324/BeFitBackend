@@ -1,9 +1,17 @@
+"""
+This Module contains settings class which store configuration for app
+"""
 from typing import Any, Dict, List
 
-from pydantic import BaseSettings, PostgresDsn, validator
+from pydantic import PostgresDsn  # pylint: disable=no-name-in-module
+from pydantic import BaseSettings, validator
 
 
-class Settings(BaseSettings):
+class Settings(BaseSettings):  # pylint: disable=too-few-public-methods
+    """
+    This class inherits from BaseSettings and store all settings for app
+    """
+
     # SECRET_KEY: str = secrets.token_urlsafe(32)
     SECRET_KEY: str = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
     ALGORITHM: str = "HS256"
@@ -22,9 +30,19 @@ class Settings(BaseSettings):
     SQLALCHEMY_DATABASE_URI: PostgresDsn | None = None
 
     @validator("SQLALCHEMY_DATABASE_URI", pre=True)
-    def assemble_db_connection(cls, v: str | None, values: Dict[str, Any]) -> Any:
-        if isinstance(v, str):
-            return v
+    def assemble_db_connection(  # pylint: disable=no-self-argument
+        cls,
+        value: str | None,
+        values: Dict[str, Any],  # pylint: disable=no-self-argument
+    ) -> Any:
+        """
+        :param value: Is string value for  SQLALCHEMY_DATABASE_URI
+        :param values: Store all settings for app in dict
+        :return: If SQLALCHEMY_DATABASE_URI is configured then is returned
+            if didn't build db url from other parameters
+        """
+        if isinstance(value, str):
+            return value
         return PostgresDsn.build(
             scheme="postgresql",
             user=values.get("POSTGRES_USER"),
@@ -33,7 +51,11 @@ class Settings(BaseSettings):
             path=f"/{values.get('POSTGRES_DB') or ''}",
         )
 
-    class Config:
+    class Config:  # pylint: disable=too-few-public-methods
+        """
+        This class store configuration for Settings
+        """
+
         case_sensitive = True
 
 

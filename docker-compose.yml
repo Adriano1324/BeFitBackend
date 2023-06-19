@@ -26,3 +26,26 @@ services:
       - ./:/app/
     depends_on:
       - db
+  lint:
+    env_file:
+      - .env
+    build:
+      dockerfile: docker/backend.dockerfile
+      args:
+        INSTALL_DEV: true
+    command: ./scripts/lint.sh
+    volumes:
+      - ./:/app/
+  test:
+    env_file:
+      - .env
+    build:
+      dockerfile: docker/backend.dockerfile
+      args:
+        INSTALL_DEV: true
+    command: ./scripts/test.sh
+    volumes:
+      - ./:/app/
+    depends_on:
+      - db
+

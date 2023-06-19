@@ -7,6 +7,8 @@ RUN pip install "poetry==1.4.1"
 
 # Copy poetry.lock* in case it doesn't exist in the repo
 COPY ../pyproject.toml ../poetry.lock* /app/
+COPY ../scripts /app/scripts
+RUN chmod -R +x /app/scripts/
 RUN poetry config virtualenvs.create false
 # Allow installing dev dependencies to run tests
 ARG INSTALL_DEV=false

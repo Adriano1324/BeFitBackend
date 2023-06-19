@@ -5,14 +5,17 @@ from typing import Any
 
 from sqlalchemy.inspection import inspect
 
-from app.security.context import Info
+from app.security import Info
 
 from .convert_camel_case import convert_camel_case
 
 
 def get_only_selected_fields(db_baseclass_name: Any, info: Info) -> list[Any]:
     """
-    This function is used to load only selected fields
+    Is returning list of fields requested by user
+    :param db_baseclass_name: DB model class
+    :param info: Info containing list of requested data
+    :return: list of columns names
     """
     selections = []
     for field in list(info.selected_fields[0].selections):

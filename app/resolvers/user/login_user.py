@@ -1,3 +1,6 @@
+"""
+This module contains resolver to login user
+"""
 from sqlalchemy import select
 
 from app.db.async_session import get_session
@@ -14,7 +17,15 @@ from app.utils.resolvers import get_valid_data
 async def login_user(
     username: str, password: str
 ) -> LoginSuccessScalar | UserNotFoundScalar | LoginErrorScalar:
-    """auth user resolver"""
+    """
+    This function is responsible to log in user
+    :param username: User username
+    :param password: User password
+    :return: one of LoginSuccessScalar | UserNotFoundScalar | LoginErrorScalar
+        If LoginSuccessScalar User data and token are returned
+        If UserNotFoundScalar Username is incorrect
+        If LoginErrorScalar Password is incorrect
+    """
     async with get_session() as s:
         select_new_user_sql = select(UserModel).filter(UserModel.username == username)
         db_user = (await s.execute(select_new_user_sql)).scalars().unique().first()

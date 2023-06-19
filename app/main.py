@@ -1,3 +1,7 @@
+"""
+This is main module where app is created
+"""
+
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 

@@ -150,8 +150,8 @@ Response if wrong password
 ```
 ### me
 ```gql
-query me {
-  me {
+query current_user {
+  current_user {
     ... on User {
       id
       description
@@ -181,7 +181,7 @@ Response if everything is correct
 ```json
 {
   "data": {
-    "me": {
+    "current_user": {
       "id": 44,
       "description": "qwerty",
       "avatarImg": "qwerty",
@@ -196,7 +196,7 @@ Response if no Header
 ```json
 {
   "data": {
-    "me": {
+    "current_user": {
       "__typename": "MissingToken",
       "msg": "Token is missing, please login"
     }
@@ -207,7 +207,7 @@ Response if Expired token
 ```json
 {
   "data": {
-    "me": {
+    "current_user": {
       "__typename": "ExpiredToken",
       "msg": "Token is expired, please login again"
     }

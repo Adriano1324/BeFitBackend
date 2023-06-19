@@ -3,6 +3,7 @@
 set -x
 
 mypy app
-black app --check
-isort --recursive --check-only app
-flake8
+black app
+isort --profile black app
+flake8 app
+pylint app

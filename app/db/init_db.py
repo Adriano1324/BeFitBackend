@@ -1,2 +1,10 @@
+"""
+This module will be used in initial data ingestion
+"""
+
+
 def init_db() -> None:
-    pass
+    """
+    This function will be used in ingesting initial data to db
+    :return:
+    """
