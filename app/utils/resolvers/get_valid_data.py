@@ -6,7 +6,10 @@ import logging
 
 def get_valid_data(model_data_object, model_class) -> dict:  # type: ignore
     """
-    This function returns dict of valid fields
+
+    :param model_data_object: Object returned from db
+    :param model_class: DB model
+    :return: dict of data
     """
     data_dict = {}
     for column in model_class.__table__.columns:

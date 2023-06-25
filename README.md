@@ -5,7 +5,7 @@ Copy .env.template to .env
 
 Starting containers
 ```shell
-docker compose up  # Runs db and backend container
+docker compose up backend # Runs db and backend container
 ```
 
 Migrating database
@@ -20,6 +20,16 @@ docker compose run backend alembic upgrade head  # Applies new migration to data
 ```
 
 After running backend and migrations on address `http://127.0.0.1:8000/graphql` is playground for GraphQl
+
+## Running linters
+```shell
+docker compose run --rm lint
+```
+
+## Running tests
+```shell
+docker compose run --rm test
+```
 
 ## Authentication
 For authentication we are using JWT
@@ -150,8 +160,8 @@ Response if wrong password
 ```
 ### me
 ```gql
-query me {
-  me {
+query current_user {
+  current_user {
     ... on User {
       id
       description
@@ -181,7 +191,7 @@ Response if everything is correct
 ```json
 {
   "data": {
-    "me": {
+    "current_user": {
       "id": 44,
       "description": "qwerty",
       "avatarImg": "qwerty",
@@ -196,7 +206,7 @@ Response if no Header
 ```json
 {
   "data": {
-    "me": {
+    "current_user": {
       "__typename": "MissingToken",
       "msg": "Token is missing, please login"
     }
@@ -207,7 +217,7 @@ Response if Expired token
 ```json
 {
   "data": {
-    "me": {
+    "current_user": {
       "__typename": "ExpiredToken",
       "msg": "Token is expired, please login again"
     }
